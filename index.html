@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WIP - Workforce Information Platform</title>
+  <title>WIP — Workforce Information Partnership</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -463,150 +463,7 @@
 
     .chat-close:hover { color: #fff; }
 
-    /* Chat messages */
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      background: #f7f9fb;
-    }
-
-    .msg {
-      max-width: 82%;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      padding: 0.6rem 0.9rem;
-      border-radius: 14px;
-      word-break: break-word;
-    }
-
-    .msg-bot {
-      background: var(--white);
-      border: 1px solid var(--border);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-      color: var(--text);
-    }
-
-    .msg-user {
-      background: var(--teal);
-      color: var(--white);
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-
-    /* Typing indicator */
-    .typing {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-      padding: 0.6rem 0.9rem;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      border-bottom-left-radius: 4px;
-      width: fit-content;
-    }
-
-    .typing span {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--teal);
-      animation: bounce 1.2s ease-in-out infinite;
-    }
-
-    .typing span:nth-child(2) { animation-delay: 0.15s; }
-    .typing span:nth-child(3) { animation-delay: 0.3s; }
-
-    @keyframes bounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-5px); }
-    }
-
-    /* Quick actions */
-    .quick-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.3rem;
-    }
-
-    .quick-btn {
-      background: var(--teal-pale);
-      border: 1px solid rgba(42,140,114,0.3);
-      color: var(--teal);
-      font-size: 0.78rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.15s;
-      font-family: inherit;
-    }
-
-    .quick-btn:hover { background: rgba(42,140,114,0.2); }
-
-    /* Chat input */
-    .chat-input-row {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.9rem 1rem;
-      border-top: 1px solid var(--border);
-      background: var(--white);
-      flex-shrink: 0;
-    }
-
-    .chat-input {
-      flex: 1;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 0.55rem 1rem;
-      font-size: 0.9rem;
-      font-family: inherit;
-      resize: none;
-      outline: none;
-      transition: border-color 0.2s;
-      background: #f7f9fb;
-    }
-
-    .chat-input:focus { border-color: var(--teal); background: var(--white); }
-
-    .chat-send {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--teal);
-      color: var(--white);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.2s;
-      align-self: flex-end;
-    }
-
-    .chat-send:hover { background: var(--teal-light); }
-    .chat-send:disabled { background: var(--border); cursor: not-allowed; }
-    .chat-send svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-    /* ── N8N iframe mode (alternative) ─────────────── */
-    /* When using n8n embed, the iframe fills .chat-messages + .chat-input-row */
-    #n8n-iframe-container {
-      flex: 1;
-      display: none; /* set to 'flex' when using iframe mode */
-      flex-direction: column;
-    }
-
-    #n8n-iframe {
-      flex: 1;
-      border: none;
-      width: 100%;
-    }
+    /* ── N8N iframe fills the panel below the header ── */
 
     /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width: 680px) {
@@ -785,102 +642,28 @@
     <button class="chat-close" onclick="closeChat()" aria-label="Close chat">✕</button>
   </div>
 
-  <!-- ─────────────────────────────────────────────────
-       OPTION A — Custom chat UI calling n8n webhook
-       (default — keep this, delete Option B below)
-  ───────────────────────────────────────────────── -->
-  <div id="chat-messages" class="chat-messages" aria-live="polite">
-    <!-- Welcome message is injected by JS -->
-  </div>
-
-  <!--
-  <div class="chat-input-row">
-    <textarea
-      id="chat-input"
-      class="chat-input"
-      rows="1"
-      placeholder="Ask about jobs, skills, or workforce trends…"
-      aria-label="Your message"
-      onkeydown="handleKey(event)"
-      oninput="autoResize(this)"
-    ></textarea>
-    <button class="chat-send" id="send-btn" onclick="sendMessage()" aria-label="Send message">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-  <!-- END OPTION A -->
-  
-  
-   ─────────────────────────────────────────────────
-       OPTION B — n8n chat embed (iframe)
-       Uncomment this block and delete Option A above
-       if you prefer to use n8n's built-in chat widget.
-       Replace the src URL with your n8n chat URL.
-  ───────────────────────────────────────────────────
-  -->
-  <div id="n8n-iframe-container" style="display:flex; flex-direction:column; flex:1;">
+  <!-- n8n built-in chat embed — paste your Chat URL as the src below -->
+  <div style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
     <iframe
-      id="n8n-iframe"
       src="https://harisushehu.app.n8n.cloud/webhook/0fe9690e-1051-42d9-9d3f-db1cd6933e97/chat"
       allow="microphone"
-      style="flex:1; border:none; width:100%;"
+      style="flex:1; border:none; width:100%; height:100%;"
       title="WIP Workforce Assistant"
     ></iframe>
   </div>
-  ────────────────────────────────────────────────
 
 </div>
 
 
 <script>
-/* ═══════════════════════════════════════════════════
-   ██████  CONFIGURATION — EDIT THIS SECTION  ██████
-   ═══════════════════════════════════════════════════
-
-   Step 1 — Get your webhook URL from n8n:
-     • Open your n8n workflow
-     • Add a "Chat Trigger" node  (or "Webhook" node)
-     • Copy the "Webhook URL" shown in the node panel
-     • Paste it below as N8N_WEBHOOK_URL
-
-   Step 2 — (Optional) Set a session ID strategy.
-     The default generates a random ID per browser session.
-     You can hardcode one for testing.
-
-   Step 3 — Deploy and test!
-
-   ─────────────────────────────────────────────────
-   WHAT THE WEBHOOK RECEIVES (POST body, JSON):
-   {
-     "sessionId": "visitor-abc123",
-     "action": "sendMessage",
-     "chatInput": "What are the top skills shortages in Auckland?"
-   }
-
-   WHAT YOUR N8N WORKFLOW SHOULD RETURN (JSON):
-   {
-     "output": "Great question! Auckland's top skill shortages include…"
-   }
-   ─────────────────────────────────────────────────
-*/
-
-const N8N_WEBHOOK_URL = "https://harisushehu.app.n8n.cloud/webhook/50998c2d-027a-4a3d-804f-4b2b2bb0c4e4";
-//  ↑ example: "https://yourname.app.n8n.cloud/webhook/abc123def456"
-
-/* ═══════════════════════════════════════════════════ */
-
-const SESSION_ID = "visitor-" + Math.random().toString(36).slice(2, 10);
 let chatOpen = false;
 let nudgeDismissed = false;
-let messageHistory = [];
 
-/* ── Panel open / close ───────────────────────────── */
 function openChat() {
   chatOpen = true;
   document.getElementById("chat-panel").classList.add("open");
   document.getElementById("chat-dot").style.display = "none";
   dismissNudge();
-  setTimeout(() => document.getElementById("chat-input").focus(), 300);
 }
 
 function closeChat() {
@@ -888,171 +671,21 @@ function closeChat() {
   document.getElementById("chat-panel").classList.remove("open");
 }
 
-/* ── Nudge logic (10-second delay) ───────────────── */
 function dismissNudge() {
   nudgeDismissed = true;
-  const n = document.getElementById("chat-nudge");
-  n.classList.remove("visible");
+  document.getElementById("chat-nudge").classList.remove("visible");
 }
 
+/* Show nudge after 10 seconds if user hasn't opened chat */
 setTimeout(() => {
   if (!chatOpen && !nudgeDismissed) {
     document.getElementById("chat-dot").style.display = "block";
     document.getElementById("chat-nudge").classList.add("visible");
-    // Auto-hide after 8 more seconds so it doesn't linger
     setTimeout(dismissNudge, 8000);
   }
 }, 10000);
 
-/* ── Welcome message ─────────────────────────────── */
-window.addEventListener("DOMContentLoaded", () => {
-  addBotMessage(
-    "Kia ora! 👋 I'm the WIP Workforce Assistant. I can help with questions about New Zealand's labour market, skills shortages, regional employment, and training pathways.",
-    [
-      "Skills shortages in NZ?",
-      "Regional job trends",
-      "Training pathways",
-      "Workforce planning"
-    ]
-  );
-});
-
-/* ── Message rendering ───────────────────────────── */
-function addBotMessage(text, quickReplies) {
-  const box = document.getElementById("chat-messages");
-  const wrap = document.createElement("div");
-  wrap.style.display = "flex";
-  wrap.style.flexDirection = "column";
-  wrap.style.alignItems = "flex-start";
-  wrap.style.gap = "0.4rem";
-
-  const msg = document.createElement("div");
-  msg.className = "msg msg-bot";
-  msg.textContent = text;
-  wrap.appendChild(msg);
-
-  if (quickReplies && quickReplies.length) {
-    const qa = document.createElement("div");
-    qa.className = "quick-actions";
-    quickReplies.forEach(q => {
-      const btn = document.createElement("button");
-      btn.className = "quick-btn";
-      btn.textContent = q;
-      btn.onclick = () => {
-        document.getElementById("chat-input").value = q;
-        sendMessage();
-      };
-      qa.appendChild(btn);
-    });
-    wrap.appendChild(qa);
-  }
-
-  box.appendChild(wrap);
-  box.scrollTop = box.scrollHeight;
-}
-
-function addUserMessage(text) {
-  const box = document.getElementById("chat-messages");
-  const msg = document.createElement("div");
-  msg.className = "msg msg-user";
-  msg.textContent = text;
-  box.appendChild(msg);
-  box.scrollTop = box.scrollHeight;
-}
-
-function showTyping() {
-  const box = document.getElementById("chat-messages");
-  const t = document.createElement("div");
-  t.className = "typing";
-  t.id = "typing-indicator";
-  t.innerHTML = "<span></span><span></span><span></span>";
-  box.appendChild(t);
-  box.scrollTop = box.scrollHeight;
-  return t;
-}
-
-function removeTyping() {
-  const t = document.getElementById("typing-indicator");
-  if (t) t.remove();
-}
-
-/* ── Send message to n8n ─────────────────────────── */
-async function sendMessage() {
-  const input = document.getElementById("chat-input");
-  const text = input.value.trim();
-  if (!text) return;
-
-  input.value = "";
-  autoResize(input);
-  addUserMessage(text);
-
-  const sendBtn = document.getElementById("send-btn");
-  sendBtn.disabled = true;
-  const typing = showTyping();
-
-  /* ─── N8N API CALL ──────────────────────────────
-     If you haven't set a webhook URL yet, a friendly
-     placeholder message is shown instead.
-  ─────────────────────────────────────────────── */
-  if (N8N_WEBHOOK_URL === "PASTE_YOUR_N8N_WEBHOOK_URL_HERE") {
-    await delay(1200);
-    removeTyping();
-    addBotMessage("⚙️ To connect your n8n agent, open this HTML file and paste your webhook URL into the N8N_WEBHOOK_URL variable near the top of the <script> section.");
-    sendBtn.disabled = false;
-    return;
-  }
-
-  try {
-    const res = await fetch(N8N_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: SESSION_ID,
-        action: "sendMessage",
-        chatInput: text
-      })
-    });
-
-    removeTyping();
-
-    if (!res.ok) throw new Error("HTTP " + res.status);
-
-    const data = await res.json();
-
-    /*
-      n8n's Chat Trigger node returns: { output: "..." }
-      If you used a plain Webhook node, adjust the key:
-        data.response   or   data.text   etc.
-    */
-    const reply = data.output || data.response || data.text || data.message
-      || (typeof data === "string" ? data : JSON.stringify(data));
-
-    addBotMessage(reply);
-
-  } catch (err) {
-    removeTyping();
-    addBotMessage("Sorry, I couldn't reach the server right now. Please try again in a moment. (" + err.message + ")");
-  }
-
-  sendBtn.disabled = false;
-}
-
-/* ── Helpers ─────────────────────────────────────── */
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-function handleKey(e) {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function autoResize(el) {
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight, 120) + "px";
-}
-
-/* Close panel on Escape key */
+/* Close on Escape */
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && chatOpen) closeChat();
 });
